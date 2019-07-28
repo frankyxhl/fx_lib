@@ -35,6 +35,6 @@ Log Module
 
 Example
 **********************
-    [Config example file](docs/log_config_example.yaml)
+Please check here [Config example file](docs/log_config_example.yaml)
 
-    [Test](docs/index.rst)
+This is a test: [Test](docs/index.rst)
