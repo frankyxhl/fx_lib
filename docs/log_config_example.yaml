@@ -1,0 +1,93 @@
+version: 1
+
+formatters:
+    standard:
+        format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+    info:
+        format: "%(asctime)s - %(message)s"
+        datefmt: "[%m-%d %H:%M:%S]"
+    error:
+        format: "%(levelname)s <PID %(process)d:%(processName)s> %(name)s.%(funcName)s(): %(message)s"
+
+handlers:
+    console:
+        class: logging.StreamHandler
+        level: INFO
+        formatter: info
+        stream: ext://sys.stdout
+
+    info_file_handler:
+        class: logging.handlers.TimedRotatingFileHandler
+        level: INFO
+        formatter: standard
+        filename: /logs/example/info.log
+        backupCount: 20
+        interval: 1
+        when: midnight
+        encoding: utf8
+
+    debug_file_handler:
+        class: logging.handlers.TimedRotatingFileHandler
+        level: INFO
+        formatter: standard
+        filename:  /logs/example/debug.log
+        backupCount: 20
+        interval: 1
+        when: midnight
+        encoding: utf8
+
+    error_file_handler:
+        class: logging.handlers.RotatingFileHandler
+        level: ERROR
+        formatter: error
+        filename: /logs/example/errors.log
+        maxBytes: 10485760 # 10MB
+        backupCount: 20
+        encoding: utf8
+
+    error_smtp_handler:
+        class: log.ZohoSMTPHandler
+        level: ERROR
+        formatter: error
+        mailhost: [smtp.zoho.com, 465]
+        fromaddr: from-user@zoho.com
+        sender_title: Pi
+        toaddrs: [to-user@gmail.com]
+        subject: Error from Pi
+        credentials: [login@zoho.com, password]
+        secure: yes
+
+    critical_file_handler:
+        class: logging.handlers.RotatingFileHandler
+        level: CRITICAL
+        formatter: standard
+        filename: /logs/example/critical.log
+        maxBytes: 10485760 # 10MB
+        backupCount: 20
+        encoding: utf8
+
+    warn_file_handler:
+        class: logging.handlers.RotatingFileHandler
+        level: WARN
+        formatter: standard
+        filename: /logs/example/warning.log
+        maxBytes: 10485760 # 10MB
+        backupCount: 20
+        encoding: utf8
+
+root:
+    level: NOTSET
+    handlers: [console]
+    propogate: yes
+
+
+loggers:
+    frank:
+        level: DEBUG
+        handlers: [console, info_file_handler, error_file_handler, error_smtp_handler, critical_file_handler, debug_file_handler, warn_file_handler]
+        propagate: no
+
+    <module.x>:
+        level: DEBUG
+        handlers: [debug_file_handler]
+        propagate: yes
