@@ -33,7 +33,8 @@ Log Module
     # log.info("Hello, World")
 
 
-## Example
+Example
+**********************
     [Config example file](docs/log_config_example.yaml)
 
     [Test](docs/index.rst)
