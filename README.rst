@@ -7,11 +7,11 @@ fx-lib
 
 
 
-FX common lib
+FX common lib in Python
 
 
 
-Features
+Install
 --------
 
     pip install git+https://github.com/frankyxhl/py_fx_lib
@@ -22,8 +22,17 @@ Features
 Log Module
 ----------
 
+    import logging
+
+    from fx_lib.log import setup_logging
+
+
     setup_logging(".sync.logging.yaml", default_level=logging.DEBUG)
+
     log = logging.getLogger("frank")
 
 
-check docs/log_config_example.yaml
+    # log.info("Hello, World")
+
+
+[Config example file](docs/log_config_example.yaml)
