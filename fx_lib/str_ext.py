@@ -1,8 +1,8 @@
 
-__all__ = ["S"]
+__all__ = ["StringExt"]
 
 
-class S(str):
+class StringExt(str):
 
     def __init__(self, val: str):
         if not isinstance(val, str):
