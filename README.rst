@@ -3,11 +3,7 @@ fx-lib
 ======
 
 
-
-
-
-
-FX common lib in Python
+Frank Xu(FX)'s personal FX common lib in Python
 
 
 
