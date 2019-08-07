@@ -12,6 +12,9 @@ Install
 
     pip install git+https://github.com/frankyxhl/py_fx_lib
 
+    or
+
+    pip install fx_lib
 
 
 
