@@ -11,11 +11,13 @@ Install
 --------
 
     .. code-block:: bash
+
         pip install git+https://github.com/frankyxhl/py_fx_lib
 
     or
 
     .. code-block:: bash
+
         pip install fx_lib
 
 
@@ -24,6 +26,7 @@ Log Module
 ----------
 
     .. code-block:: python
+
         import logging
         from fx_lib.log import setup_logging
 
