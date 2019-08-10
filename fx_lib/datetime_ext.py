@@ -12,5 +12,11 @@ class Date(datetime.datetime):
         self._dt = dt
         return self
 
-    def to_string_YYYY_MM_DD(self):
-        return self._dt.strftime("%Y-%m-%d")
+    def to_string_YYYY_MM_DD(self, delimiter="-"):
+        f = "%Y{0}%m{0}%d".format(delimiter)
+        return self._dt.strftime(f)
+
+    @staticmethod
+    def today() -> datetime.datetime:
+        return datetime.datetime.today()
+

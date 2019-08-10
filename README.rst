@@ -10,26 +10,28 @@ Frank Xu(FX)'s personal FX common lib in Python
 Install
 --------
 
-    pip install git+https://github.com/frankyxhl/py_fx_lib
+    .. code-block:: bash
+        pip install git+https://github.com/frankyxhl/py_fx_lib
 
     or
 
-    pip install fx_lib
+    .. code-block:: bash
+        pip install fx_lib
 
 
 
 Log Module
 ----------
 
-    import logging
-    from fx_lib.log import setup_logging
+    .. code-block:: python
+        import logging
+        from fx_lib.log import setup_logging
 
+        setup_logging(".sync.logging.yaml", default_level=logging.DEBUG)
+        log = logging.getLogger("frank")
 
-    setup_logging(".sync.logging.yaml", default_level=logging.DEBUG)
-    log = logging.getLogger("frank")
-
-
-    # log.info("Hello, World")
+        # Usage
+        # log.info("Hello, World")
 
 
 Example
