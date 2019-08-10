@@ -1,8 +1,8 @@
 
-__all__ = ["StringExt"]
+__all__ = ["StrExt", "S"]
 
 
-class StringExt(str):
+class StrExt(str):
 
     def __init__(self, val: str):
         if not isinstance(val, str):
@@ -12,4 +12,6 @@ class StringExt(str):
     def is_empty(self):
         return self.val is None or self.val == ""
 
+
+S = StrExt
 
