@@ -18,7 +18,7 @@ Install
 
     .. code-block:: bash
 
-        pip install fx_lib
+        pip install fx-lib
 
 
 
@@ -36,6 +36,17 @@ Log Module
         # Usage
         # log.info("Hello, World")
 
+
+Email Module
+----------
+
+    .. code-block:: python
+
+        from fx_lib.zoho_email import Email
+
+        # Usage
+        # with Email.read_config() as e:
+        #     e.send("Email Title", "Content")
 
 Example
 **********************
