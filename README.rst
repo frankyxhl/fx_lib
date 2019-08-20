@@ -37,8 +37,9 @@ Log Module
         # log.info("Hello, World")
 
 
+
 Email Module
-----------
+------------
 
     .. code-block:: python
 
@@ -47,6 +48,8 @@ Email Module
         # Usage
         # with Email.read_config() as e:
         #     e.send("Email Title", "Content")
+
+
 
 Example
 **********************
