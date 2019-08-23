@@ -17,6 +17,9 @@ class Date(datetime):
         f = "%Y{0}%m{0}%d".format(delimiter)
         return self._dt.strftime(f)
 
+    def to_string_YYYYMMDD(self):
+        return self._dt.strftime("%Y%m%d")
+
     def offset(self, days: int) -> datetime:
         """
         :param days:
