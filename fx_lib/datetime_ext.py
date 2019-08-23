@@ -14,10 +14,16 @@ class Date(datetime):
         return self
 
     def to_string_YYYY_MM_DD(self, delimiter="-"):
+        """
+        :return: str
+        """
         f = "%Y{0}%m{0}%d".format(delimiter)
         return self._dt.strftime(f)
 
     def to_string_YYYYMMDD(self):
+        """
+        :return: str
+        """
         return self._dt.strftime("%Y%m%d")
 
     def offset(self, days: int) -> datetime:
@@ -25,7 +31,8 @@ class Date(datetime):
         :param days:
         :return:
         """
-        return self._dt + timedelta(days=days)
+        self._dt = self._dt + timedelta(days=days)
+        return self
 
     def next_days(self, days: int) -> datetime:
         """
