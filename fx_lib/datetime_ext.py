@@ -13,18 +13,18 @@ class Date(datetime):
         self._dt = dt
         return self
 
-    def to_string_YYYY_MM_DD(self, delimiter="-"):
+    def to_string_YYYY_MM_DD(self, delimiter="-") -> str:
         """
         :return: str
         """
         f = "%Y{0}%m{0}%d".format(delimiter)
-        return self._dt.strftime(f)
+        return self.strftime(f)
 
-    def to_string_YYYYMMDD(self):
+    def to_string_YYYYMMDD(self) -> str:
         """
         :return: str
         """
-        return self._dt.strftime("%Y%m%d")
+        return self.strftime("%Y%m%d")
 
     def offset(self, days: int) -> datetime:
         """
@@ -32,7 +32,7 @@ class Date(datetime):
         :return:
         """
         self._dt = self._dt + timedelta(days=days)
-        return self
+        return Date(self._dt)
 
     def next_days(self, days: int) -> datetime:
         """
@@ -54,7 +54,7 @@ class Date(datetime):
 
     @staticmethod
     def today() -> datetime:
-        return datetime.today()
+        return Date(datetime.today())
 
     @staticmethod
     def yesterday() -> datetime:
