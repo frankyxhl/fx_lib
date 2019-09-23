@@ -2,6 +2,7 @@ import os
 import yaml
 import logging.config
 import logging
+from pathlib import Path
 from email.mime.text import MIMEText
 from email.header import Header
 from email.utils import formataddr
@@ -52,6 +53,16 @@ def setup_logging(default_path='logging.yaml', default_level=logging.DEBUG, env_
     value = os.getenv(env_key, None)
     if value:
         path = value
+    try:
+        if os.path.exists(default_path):
+            path = default_path
+        elif os.path.exists(Path.joinpath(Path.home(), default_path)):
+            path = Path.joinpath(Path.home(), default_path)
+        else:
+            raise FileNotFoundError("Could not find email config file")
+    except FileNotFoundError as ex:
+        print(ex)
+        print('Could not find config file.Using default config')
     if os.path.exists(path):
         with open(path, 'rt') as f:
             try:
@@ -59,12 +70,11 @@ def setup_logging(default_path='logging.yaml', default_level=logging.DEBUG, env_
                 logging.config.dictConfig(config)
             except Exception as e:
                 print(e)
-                print('Error in Logging Configuration. Using default configs')
+                print('Error in Logging Configuration. Using default config')
                 logging.basicConfig(level=default_level)
     else:
-        print("Not found path")
+        print('Failed to load configuration file. Using default config')
         logging.basicConfig(level=default_level)
-        print('Failed to load configuration file. Using default configs')
 
 
 class ZohoSMTPHandler(logging.Handler):
