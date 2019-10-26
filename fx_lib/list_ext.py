@@ -10,5 +10,5 @@ class ListExt(list):
         return "[{}]".format(self.join(", "))
 
     def join(self, delimiter=","):
-        l = [str(x) for x in self.lst]
-        return delimiter.join(l)
+        _l = [str(x) for x in self.lst]
+        return delimiter.join(_l)

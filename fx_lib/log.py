@@ -8,7 +8,7 @@ from email.header import Header
 from email.utils import formataddr
 
 
-__all__ = ["setup_logging"]
+__all__ = ["setup_logging", "green", "blue", "yellow", "red"]
 
 
 class TColors:
