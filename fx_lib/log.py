@@ -8,8 +8,7 @@ from email.header import Header
 from email.utils import formataddr
 
 
-__all__ = ["setup_logging", "green", "blue", "yellow", "red"]
-
+__all__ = ["setup_logging", "green", "blue", "yellow", "red", "blue_bar"]
 
 class TColors:
     """
@@ -45,7 +44,8 @@ def red(s):
     return "{}{}{}".format(TColors.RED, s, TColors.ENDC)
 
 
-BLUE_BAR = blue(BAR)
+def blue_bar():
+    return blue(BAR)
 
 
 def setup_logging(default_path='logging.yaml', default_level=logging.DEBUG, env_key='LOG_CFG'):
