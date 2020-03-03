@@ -26,6 +26,12 @@ class Date(datetime):
         """
         return self.strftime("%Y%m%d")
 
+    def to_string_YYYYMM(self) -> str:
+        """
+        :return: str
+        """
+        return self.strftime("%Y%m")
+
     def offset(self, days: int) -> datetime:
         """
         :param days:
