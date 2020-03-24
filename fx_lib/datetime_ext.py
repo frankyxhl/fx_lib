@@ -58,20 +58,13 @@ class Date(datetime):
             raise ValueError("Days could not be zero or negative. Current Value is: {}".format(days))
         return self.offset(-days)
 
-    @staticmethod
-    def today() -> datetime:
-        return Date(datetime.today())
-
     def yesterday(self) -> datetime:
         return self.before_days(1)
-
-    @staticmethod
-    def yesterday() -> datetime:
-        return Date(datetime.today()).before_days(1)
 
     def tomorrow(self) -> datetime:
         return self.next_days(1)
 
     @staticmethod
-    def tomorrow() -> datetime:
-        return Date(datetime.today()).next_days(1)
+    def today() -> datetime:
+        return Date(datetime.today())
+
