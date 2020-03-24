@@ -1,3 +1,4 @@
+from __future__ import annotations
 from datetime import datetime, timedelta
 
 
@@ -58,11 +59,11 @@ class Date(datetime):
             raise ValueError("Days could not be zero or negative. Current Value is: {}".format(days))
         return self.offset(-days)
 
-    def yesterday(self) -> datetime:
-        return self.before_days(1)
+    def yesterday(self) -> Date:
+        return Date(self.before_days(1))
 
-    def tomorrow(self) -> datetime:
-        return self.next_days(1)
+    def tomorrow(self) -> Date:
+        return Date(self.next_days(1))
 
     @staticmethod
     def today() -> datetime:
