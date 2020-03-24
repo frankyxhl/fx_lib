@@ -65,3 +65,7 @@ class Date(datetime):
     @staticmethod
     def yesterday() -> datetime:
         return Date(datetime.today()).before_days(1)
+
+    @staticmethod
+    def tomorrow() -> datetime:
+        return Date(datetime.today()).next_days(1)
