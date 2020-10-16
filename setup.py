@@ -24,6 +24,8 @@ setup(
         "License :: OSI Approved :: MIT License",
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.7',
+        'Programming Language :: Python :: 3.8',
+        'Programming Language :: Python :: 3.9',
         "Operating System :: OS Independent",
     ],
     description="FX's personal common lib",
@@ -37,6 +39,6 @@ setup(
     test_suite='tests',
     tests_require=test_requirements,
     url='https://github.com/frankyxhl/py_fx_lib',
-    version='0.3.1',
+    version='0.3.2',
     zip_safe=False,
 )
