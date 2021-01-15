@@ -2,7 +2,31 @@ from __future__ import annotations
 from datetime import datetime, timedelta
 
 
-__all__ = ["Date"]
+__all__ = ["Date", "Datetime"]
+
+
+class Datetime(datetime):
+
+    def __new__(cls, dt=datetime.now()):
+        if not isinstance(dt, datetime):
+            raise TypeError("Wrong type. Should be Datetime")
+        self = datetime.__new__(
+            cls, dt.year, dt.month, dt.day,
+            dt.hour, dt.minutes, dt.second, dt.microsecond)
+        self._dt = dt
+        return self
+
+    def to_string_YYYYMMDD_hhmmss(self) -> str:
+        """
+        :return: str
+        """
+        return self.strftime("%Y%m%d_%H%M%S")
+
+    def to_string_YYYY_MM_DD_hh_mm_ss(self) -> str:
+        """
+        :return: str
+        """
+        return self.strftime("%Y-%m-%d_%H:%M:%S")
 
 
 class Date(datetime):
@@ -32,12 +56,6 @@ class Date(datetime):
         :return: str
         """
         return self.strftime("%Y%m")
-
-    def to_string_YYYYMMDD_hhmmss(self) -> str:
-        """
-        :return: str
-        """
-        return self.strftime("%Y%m%d_%H%M%S")
 
     def offset(self, days: int) -> datetime:
         """
@@ -74,4 +92,3 @@ class Date(datetime):
     @staticmethod
     def today() -> datetime:
         return Date(datetime.today())
-
