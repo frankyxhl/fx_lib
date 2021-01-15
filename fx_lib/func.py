@@ -1,6 +1,14 @@
 import math
 
-__all__ = ["p", "convert_size", "chunks"]
+__all__ = ["range1", "enumerate1", "p", "convert_size", "chunks"]
+
+
+def range1(n):
+    return range(1, n+1)
+
+
+def enumerate1(lst):
+    return enumerate(lst, 1)
 
 
 def p(current_value, *args):
@@ -23,7 +31,7 @@ def convert_size(size):
 
 
 # https://stackoverflow.com/questions/312443/how-do-you-split-a-list-into-evenly-sized-chunks#answer-312464
-def chunks(l, n):
+def chunks(lst, n: int):
     """Yield successive n-sized chunks from l."""
-    for i in range(0, len(l), n):
-        yield l[i:i + n]
+    for i in range(0, len(lst), n):
+        yield lst[i:i + n]
