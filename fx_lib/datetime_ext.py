@@ -12,7 +12,7 @@ class Datetime(datetime):
             raise TypeError("Wrong type. Should be Datetime")
         self = datetime.__new__(
             cls, dt.year, dt.month, dt.day,
-            dt.hour, dt.minutes, dt.second, dt.microsecond)
+            dt.hour, dt.minute, dt.second, dt.microsecond)
         self._dt = dt
         return self
 
