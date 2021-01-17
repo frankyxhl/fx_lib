@@ -22,6 +22,12 @@ class Datetime(datetime):
         """
         return self.strftime("%Y%m%d_%H%M%S")
 
+    def to_string_YYYY_MM_DD_hhmmss(self) -> str:
+        """
+        :return: str
+        """
+        return self.strftime("%Y-%m-%d_%H%M%S")
+
     def to_string_YYYY_MM_DD_hh_mm_ss(self) -> str:
         """
         :return: str
