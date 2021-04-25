@@ -11,7 +11,7 @@ with open('README.rst') as readme_file:
 with open('HISTORY.rst') as history_file:
     history = history_file.read()
 
-requirements = ["PyYAML>=5.1.2"]
+requirements = ["PyYAML>=5.4"]
 
 setup_requirements = []
 
@@ -39,6 +39,6 @@ setup(
     test_suite='tests',
     tests_require=test_requirements,
     url='https://github.com/frankyxhl/py_fx_lib',
-    version='0.3.6',
+    version='0.4.0',
     zip_safe=False,
 )
