@@ -9,4 +9,4 @@ Sphinx==1.8.1
 twine==1.12.1
 
 
-PyYAML==5.1.1
+PyYAML==5.4
