@@ -1,14 +1,14 @@
 import os
-import yaml
 import logging.config
 import logging
 from pathlib import Path
 from email.mime.text import MIMEText
 from email.header import Header
 from email.utils import formataddr
+from .config import ConfigManager, FxLibConfigError
 
 
-__all__ = ["setup_logging", "green", "blue", "yellow", "red", "blue_bar"]
+__all__ = ["setup_logging", "green", "blue", "yellow", "red", "blue_bar", "TColors"]
 
 class TColors:
     """
@@ -49,32 +49,40 @@ def blue_bar():
 
 
 def setup_logging(default_path='logging.yaml', default_level=logging.DEBUG, env_key='LOG_CFG'):
-    path = default_path
-    value = os.getenv(env_key, None)
-    if value:
-        path = value
+    """Setup logging configuration from file or environment variable.
+    
+    Args:
+        default_path: Default path to logging configuration file
+        default_level: Default logging level if configuration fails
+        env_key: Environment variable key for config file path override
+    """
+    # Check for environment variable override
+    config_path = os.getenv(env_key)
+    
     try:
-        if os.path.exists(default_path):
-            path = default_path
-        elif os.path.exists(Path.joinpath(Path.home(), default_path)):
-            path = Path.joinpath(Path.home(), default_path)
+        if config_path:
+            # Use explicitly provided path
+            config = ConfigManager.load_yaml_config(config_path)
         else:
-            raise FileNotFoundError("Could not find email config file")
-    except FileNotFoundError as ex:
-        print(ex)
-        print('Could not find config file.Using default config')
-    if os.path.exists(path):
-        with open(path, 'rt') as f:
-            try:
-                config = yaml.safe_load(f.read())
-                logging.config.dictConfig(config)
-            except Exception as e:
-                print(e)
-                print('Error in Logging Configuration. Using default config')
-                logging.basicConfig(level=default_level)
-    else:
-        print('Failed to load configuration file. Using default config')
-        logging.basicConfig(level=default_level)
+            # Use ConfigManager to find logging config
+            config = ConfigManager.get_logging_config()
+        
+        logging.config.dictConfig(config)
+        
+    except FxLibConfigError as e:
+        print(f"Warning: Could not load logging configuration: {e}")
+        print(f"Using default logging configuration with level {default_level}")
+        logging.basicConfig(
+            level=default_level,
+            format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+        )
+    except Exception as e:
+        print(f"Error in logging configuration: {e}")
+        print(f"Using default logging configuration with level {default_level}")
+        logging.basicConfig(
+            level=default_level,
+            format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+        )
 
 
 class ZohoSMTPHandler(logging.Handler):
@@ -142,7 +150,7 @@ class ZohoSMTPHandler(logging.Handler):
             msg['To'] = ",".join(self.toaddrs)
             port = self.mailport
             if not port:
-                port = smtplib.SMTP_PORT
+                port = 465  # Default SSL port for SMTP
             smtp = smtplib.SMTP_SSL(self.mailhost, port)
             smtp.login(self.username, self.password)
             smtp.sendmail(self.fromaddr, self.toaddrs, msg.as_string())

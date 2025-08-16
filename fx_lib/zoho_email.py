@@ -1,79 +1,115 @@
-import os
-import yaml
 import smtplib
 import logging
-from sys import exit
-from typing import List
+from typing import Optional
 from dataclasses import dataclass
 from email.mime.text import MIMEText
 from email.header import Header
 from email.utils import formataddr
-from collections import Counter, namedtuple
-from pathlib import Path
+from .config import ConfigManager, FxLibConfigError
 
 log = logging
-
-CONFIG_FILE_NAME = ".email_config.yaml"
-CONFIG_FILE_PATH = CONFIG_FILE_NAME
-try:
-    if os.path.exists(CONFIG_FILE_NAME):
-        CONFIG_FILE_PATH = CONFIG_FILE_NAME
-    elif os.path.exists(Path.joinpath(Path.home(), CONFIG_FILE_NAME)):
-        CONFIG_FILE_PATH = Path.joinpath(Path.home(), CONFIG_FILE_NAME)
-    else:
-        raise FileNotFoundError("Could not find email config file.")
-except FileNotFoundError:
-    exit()
-
-# setup_logging(, default_level=logging.DEBUG)
-# log = logging.getLogger("frank")
 
 __all__ = ["Email"]
 
 
 @dataclass
 class Email:
+    """Email client for sending emails via Zoho SMTP."""
+    
     username: str
     password: str
     sender_title: str
     recipient: str
+    smtp_host: str = 'smtp.zoho.com'
+    smtp_port: int = 465
+    client: Optional[smtplib.SMTP_SSL] = None
 
     def __post_init__(self):
-        # Create server object with SSL option
-        self.client = smtplib.SMTP_SSL('smtp.zoho.com', 465)
+        """Initialize SMTP client after dataclass initialization."""
+        self.client = None  # Will be created in __enter__ or login()
 
     def __enter__(self):
+        """Context manager entry."""
+        self.connect()
         self.login()
         return self
 
     def __exit__(self, exc_type, exc_val, exc_tb):
+        """Context manager exit."""
         self.quit()
 
+    def connect(self):
+        """Create SMTP connection."""
+        if self.client is None:
+            log.debug(f"Connecting to {self.smtp_host}:{self.smtp_port}")
+            self.client = smtplib.SMTP_SSL(self.smtp_host, self.smtp_port)
+
     def login(self):
-        # Perform operations via server
-        log.debug("Start login into Zoho server")
+        """Login to SMTP server."""
+        if self.client is None:
+            self.connect()
+        log.debug("Logging in to Zoho server")
         self.client.login(self.username, self.password)
 
     def quit(self):
-        log.debug("Quit Zoho email")
-        self.client.quit()
+        """Close SMTP connection."""
+        if self.client:
+            log.debug("Closing Zoho email connection")
+            self.client.quit()
+            self.client = None
 
-    def send(self, title, content):
+    def send(self, title: str, content: str):
+        """Send email message.
+        
+        Args:
+            title: Email subject
+            content: Email body content
+            
+        Raises:
+            RuntimeError: If not connected to SMTP server
+        """
+        if self.client is None:
+            raise RuntimeError("Not connected to SMTP server. Use as context manager or call login() first.")
+            
         msg = MIMEText(content, 'plain', 'utf-8')
         msg['Subject'] = Header(title, 'utf-8')
         msg['From'] = formataddr((str(Header(self.sender_title, 'utf-8')), self.username))
         msg['To'] = self.recipient
         self.client.sendmail(self.username, [self.recipient], msg.as_string())
 
-    @staticmethod
-    def read_config(path=CONFIG_FILE_PATH):
+    @classmethod
+    def from_config(cls, config_path: Optional[str] = None):
+        """Create Email instance from configuration file.
+        
+        Args:
+            config_path: Optional path to configuration file
+            
+        Returns:
+            Email instance configured from file
+            
+        Raises:
+            FxLibConfigError: If configuration file not found or invalid
+        """
         try:
-            if not os.path.exists(path):
-                raise FileNotFoundError("Could not find email config file.")
-            with open(path, 'r') as stream:
-                config = yaml.safe_load(stream)
-                return Email(**config["zoho_email"])
-        except FileNotFoundError:
-            exit()
+            config = ConfigManager.get_email_config(config_path)
+            return cls(**config)
+        except FxLibConfigError:
+            raise
+
+    # Backward compatibility
+    @staticmethod
+    def read_config(path: Optional[str] = None):
+        """Deprecated: Use from_config() instead.
+        
+        Args:
+            path: Optional path to configuration file
+            
+        Returns:
+            Email instance configured from file
+            
+        Raises:
+            FxLibConfigError: If configuration file not found or invalid
+        """
+        return Email.from_config(path)
 
 
