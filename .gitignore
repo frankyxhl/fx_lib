@@ -104,3 +104,4 @@ ENV/
 
 .ipynb_checkpoints/
 *.ipynb
+CLAUDE.md
