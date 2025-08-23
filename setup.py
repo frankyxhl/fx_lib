@@ -34,6 +34,7 @@ setup(
     description="FX's personal common lib",
     install_requires=requirements,
     long_description=readme + '\n\n' + history,
+    long_description_content_type='text/x-rst',
     include_package_data=True,
     keywords='fx_lib',
     name='fx_lib',
@@ -42,6 +43,6 @@ setup(
     test_suite='tests',
     tests_require=test_requirements,
     url='https://github.com/frankyxhl/py_fx_lib',
-    version='0.5.2',
+    version='0.5.3',
     zip_safe=False,
 )
