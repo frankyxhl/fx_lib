@@ -14,7 +14,7 @@ class ListExt(list):
 
     def __repr__(self):
         """Return string representation using join method."""
-        return "[{}]".format(self.join(", "))
+        return f"[{self.join(', ')}]"
 
     def join(self, delimiter=","):
         """Join all elements into a string with specified delimiter.

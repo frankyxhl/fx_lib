@@ -122,7 +122,7 @@ class Date(datetime):
         Returns:
             str: Formatted date string
         """
-        f = "%Y{0}%m{0}%d".format(delimiter)
+        f = f"%Y{delimiter}%m{delimiter}%d"
         return self.strftime(f)
 
     def to_yyyymmdd(self) -> str:
@@ -166,7 +166,7 @@ class Date(datetime):
             ValueError: If days is zero or negative
         """
         if days <= 0:
-            raise ValueError("Days must be positive. Current value is: {}".format(days))
+            raise ValueError(f"Days must be positive. Current value is: {days}")
         return self.offset(days)
 
     def before_days(self, days: int) -> Date:
@@ -182,7 +182,7 @@ class Date(datetime):
             ValueError: If days is zero or negative
         """
         if days <= 0:
-            raise ValueError("Days must be positive. Current value is: {}".format(days))
+            raise ValueError(f"Days must be positive. Current value is: {days}")
         return self.offset(-days)
 
     def yesterday(self) -> Date:

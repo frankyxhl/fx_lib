@@ -18,7 +18,7 @@ class StrExt(str):
             TypeError: If val is not a string
         """
         if not isinstance(val, str):
-            raise TypeError("StrExt must be initialized with a string. Got {}".format(type(val)))
+            raise TypeError(f"StrExt must be initialized with a string. Got {type(val)}")
         return super().__new__(cls, val)
 
     def is_empty(self) -> bool:
