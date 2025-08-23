@@ -99,7 +99,8 @@ logging:
             try:
                 os.chdir(self.test_dir)
                 found_path = ConfigManager.find_config("priority_test.yaml")
-                self.assertEqual(found_path, current_config)
+                # Resolve both paths to handle symlink differences on macOS
+                self.assertEqual(found_path.resolve(), current_config.resolve())
             finally:
                 os.chdir(old_cwd)
         finally:
