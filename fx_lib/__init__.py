@@ -19,7 +19,7 @@ Key Features:
 
 __author__ = """Frank Xu"""
 __email__ = 'frank@frankxu.me'
-__version__ = '0.5.3'
+__version__ = '0.5.4'
 
 # Core utilities
 from .math import modable
